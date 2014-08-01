@@ -67,21 +67,25 @@ public class MoveRight : MonoBehaviour
 
         if (Application.platform == RuntimePlatform.WindowsEditor)
         {
-            if (attention > 35)
+            //if (attention > 35)
+			if(Input.GetButtonDown("Horizontal"))
             {
                 CheckTouch(Input.mousePosition, "began");
             }
 
-            if (attention < 35)
+            //if (attention < 35)
+			if(Input.GetButtonUp("Horizontal"))
             {
                 CheckTouch(Input.mousePosition, "ended");
             }
-            if (blink!=preBlink)
+            //if (blink!=preBlink)
+			if(Input.GetMouseButtonDown(0))
             {
                 CheckMouse(Input.mousePosition, "began");
             }
             
-            if (blink==preBlink)
+            //if (blink==preBlink)
+			if(Input.GetMouseButtonUp(0))
             {
                 CheckMouse(Input.mousePosition, "ended");
             }
@@ -134,7 +138,7 @@ public class MoveRight : MonoBehaviour
         if (phase == "began")
         {
             hero.rigidbody2D.AddForce(new Vector2(0f, jumpForce));
-            //audio.Play();
+            audio.Play();
         }
     }
 
