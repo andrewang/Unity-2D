@@ -50,44 +50,30 @@ public class MoveRight : MonoBehaviour
         completeText2.guiText.text = blink.ToString();
         completeText2.guiText.transform.position = new Vector3(0.5f, 0.88f, 0);
 
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            if (Input.touchCount > 0)
-            {
-                if (Input.GetTouch(0).phase == TouchPhase.Began)
-                {
-                    CheckTouch(Input.GetTouch(0).position, "began");
-                } else if (Input.GetTouch(0).phase == TouchPhase.Ended)
-                {
-                    CheckTouch(Input.GetTouch(0).position, "ended");
-                }
-
-            }
-        }
-
+        
         if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             //if (attention > 35)
-			if(Input.GetButtonDown("Horizontal"))
+			if(Input.GetKeyDown("right"))
             {
-                CheckTouch(Input.mousePosition, "began");
+                CheckMove(Input.mousePosition, "began");
             }
 
             //if (attention < 35)
-			if(Input.GetButtonUp("Horizontal"))
+			if(Input.GetKeyUp("right"))
             {
-                CheckTouch(Input.mousePosition, "ended");
+                CheckMove(Input.mousePosition, "ended");
             }
             //if (blink!=preBlink)
-			if(Input.GetMouseButtonDown(0))
+			if(Input.GetKeyDown("space"))
             {
-                CheckMouse(Input.mousePosition, "began");
+                CheckJump(Input.mousePosition, "began");
             }
             
             //if (blink==preBlink)
-			if(Input.GetMouseButtonUp(0))
+			if(Input.GetKeyUp("space"))
             {
-                CheckMouse(Input.mousePosition, "ended");
+                CheckJump(Input.mousePosition, "ended");
             }
 
             preBlink=blink;
@@ -113,7 +99,7 @@ public class MoveRight : MonoBehaviour
         }
     }
 
-    void CheckTouch(Vector3 pos, string phase)
+    void CheckMove(Vector3 pos, string phase)
     {
         Vector3 wp = Camera.main.ScreenToWorldPoint(pos);
         Vector2 touchPos = new Vector2(wp.x, wp.y);
@@ -129,7 +115,7 @@ public class MoveRight : MonoBehaviour
            moving = false;
         }
     }
-    void CheckMouse(Vector3 pos, string phase)
+    void CheckJump(Vector3 pos, string phase)
     {
         Vector3 wp = Camera.main.ScreenToWorldPoint(pos);
         Vector2 touchPos = new Vector2(wp.x, wp.y);
