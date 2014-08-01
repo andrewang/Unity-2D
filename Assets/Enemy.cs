@@ -7,15 +7,27 @@ public class Enemy : MonoBehaviour
     public AudioClip hitSound;
     public GameObject alertBridge;
 
+	float myTimer;
     // Use this for initialization
     void Start()
     {
+		myTimer = 5; 
     }
     
+	IEnumerator Example() {
+		yield return new WaitForSeconds(5);
+
+	}
     // Update is called once per frame
     void Update()
     {
-        transform.position -= moveSpeed;
+		if (myTimer > 0) 
+		{
+			myTimer -= Time.deltaTime;
+		} else 
+		{
+			transform.position += moveSpeed;
+		}
     }
 
     void OnCollisionEnter2D(Collision2D other)

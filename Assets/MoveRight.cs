@@ -10,32 +10,40 @@ public class MoveRight : MonoBehaviour
     private GameObject bg;
     public AudioClip completeSound;
     private GameObject[] buttons;
-    private GameObject completeText;
-    private GameObject completeText2;
+	private GameObject scoreText;
+	private GameObject completeText;
+    private GameObject attentionText;
+    private GameObject blinkText;
     private bool ended = false;
     public Font goodDog;
+
+	public int score;
 
     public s_ReadNeuro readNeuroInstance;
 
     private float preBlink=0;
     // Use this for initialization
+	void initText(ref GameObject gO) {
+		gO = new GameObject ();
+		gO.AddComponent("GUIText");
+		gO.guiText.font = goodDog;
+		gO.guiText.fontSize = 50;
+		gO.guiText.color = new Color(255, 0, 0);
+
+		}
     void Start()
-    {hero = GameObject.Find("Hero");
+    {	
+		score = 0;
+		hero = GameObject.Find("Hero");
         scene = GameObject.FindGameObjectsWithTag("Moveable");
         bg = GameObject.Find("Background");
         buttons = GameObject.FindGameObjectsWithTag("Buttons");
 
-        completeText = new GameObject();
-        completeText.AddComponent("GUIText");
-        completeText.guiText.font = goodDog;
-        completeText.guiText.fontSize = 50;
-        completeText.guiText.color = new Color(255, 0, 0);
+		initText (ref attentionText);
+		initText (ref blinkText);
+		initText (ref scoreText);
+		initText (ref completeText);
 
-        completeText2 = new GameObject();
-        completeText2.AddComponent("GUIText");
-        completeText2.guiText.font = goodDog;
-        completeText2.guiText.fontSize = 50;
-        completeText2.guiText.color = new Color(255, 0, 0);
     }
     
     // Update is called once per frame
@@ -44,11 +52,14 @@ public class MoveRight : MonoBehaviour
         var attention = readNeuroInstance.attention;
         var blink = readNeuroInstance.blink;
 
-        completeText.guiText.text = attention.ToString();
-        completeText.guiText.transform.position = new Vector3(0.24f, 0.88f, 0);
+        attentionText.guiText.text = "attention: " + attention.ToString();
+        attentionText.guiText.transform.position = new Vector3(0.05f, 1f, 0);
 
-        completeText2.guiText.text = blink.ToString();
-        completeText2.guiText.transform.position = new Vector3(0.5f, 0.88f, 0);
+        blinkText.guiText.text = "blink: " + blink.ToString();
+        blinkText.guiText.transform.position = new Vector3(0.4f, 1f, 0);
+
+		scoreText.guiText.text = "score: " + score.ToString();
+		scoreText.guiText.transform.position = new Vector3(0.8f, 1f, 0);
 
         
         if (Application.platform == RuntimePlatform.WindowsEditor)
@@ -145,19 +156,19 @@ public class MoveRight : MonoBehaviour
 
             completeText.guiText.text = "Level Complete!";
             completeText.guiText.transform.position = new Vector3(0.24f, 0.88f, 0);
-            ThinkGear.TG_Disconnect(readNeuroInstance.tgHandleId);
+            
 
         } else
         {
             completeText.guiText.text = "Game Over";
             completeText.guiText.transform.position = new Vector3(0.36f, 0.88f, 0);
         }
-
+		ThinkGear.TG_Disconnect(readNeuroInstance.tgHandleId);
         bg.GetComponent<AudioSource>().Stop();
         
         for(int i = 0; i < buttons.Length; i++)
         {
-            buttons[i].renderer.enabled = false;
+//            buttons[i].renderer.enabled = false;
             Invoke("restart", 10);
         }
     }
