@@ -1,26 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class s_ReadNeuro : MonoBehaviour {
-	
+public class NeuroskyScript : MonoBehaviour {
 	
 	public int tgHandleId;
 	public int tgConnectionStatus;
 	public int tgPacketCount;
 	public float attention;
 	public float blink;
-
+	
 	// Use this for initialization
 	void Start () {
 		setupNeuro();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		readNeuro();
 	}
-	
-	
+		
 	void setupNeuro() {
 		tgHandleId = ThinkGear.TG_GetNewConnectionId();
 		
@@ -31,15 +30,35 @@ public class s_ReadNeuro : MonoBehaviour {
 		ThinkGear.TG_EnableBlinkDetection (tgHandleId, 1);
 		
 	}
-	
-	
+
 	void readNeuro() {
 		tgPacketCount = ThinkGear.TG_ReadPackets(tgHandleId, -1);
 	
 		attention = ThinkGear.TG_GetValue (tgHandleId, ThinkGear.DATA_ATTENTION);
 		blink = ThinkGear.TG_GetValue (tgHandleId, ThinkGear.DATA_BLINK_STRENGTH);
+	
+	}
 
-		//this.gameObject.guiText.text = attention.ToString ();
+	public float Attention
+	{
+		get
+		{
+			return attention;
+		}
+	}
+
+	public float Blink
+	{
+		get
+		{
+			return blink;
+		}
+	}
+
+
+	public void Disconnect()
+	{
+		ThinkGear.TG_Disconnect(tgHandleId);
 	}
 
 	/*void OnGUI () {

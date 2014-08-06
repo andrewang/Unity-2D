@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GrabCoin : MonoBehaviour
+public class CoinScript : MonoBehaviour
 {   
     void OnTriggerEnter2D(Collider2D other)
 	{
-		MoveRight hero = other.gameObject.GetComponent<MoveRight>();
         if (other.gameObject.name == "Hero")
         {
-			hero.score++;
+			other.gameObject.GetComponent<HeroScript>().Score = 1 ;
             audio.Play();
             Destroy(gameObject.collider2D);
             gameObject.renderer.enabled = false;
