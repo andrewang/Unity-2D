@@ -10,7 +10,7 @@ public class HeroScript : MonoBehaviour
 	public AudioClip completeSound;
 	
 	private bool moving = false;
-    private GameObject[] scene;
+    private GameObject[] scenes;
     private GameObject bg;
 	private bool ended = false;
 	private int score;
@@ -20,7 +20,7 @@ public class HeroScript : MonoBehaviour
 	// Use this for initialization
     void Start()
     {	
-        scene = GameObject.FindGameObjectsWithTag("Moveable");
+        scenes = GameObject.FindGameObjectsWithTag("Moveable");
 		bg = GameObject.Find("Background2");
 		score = 0;
 		preBlink = 0;
@@ -54,11 +54,11 @@ public class HeroScript : MonoBehaviour
         // Move if button is pressed && stage is not over
         if (moving && bg.transform.position.x > -7.5f)
         {
-            for (int i = 0; i < scene.Length; i++)
+            for (int i = 0; i < scenes.Length; i++)
             {
-                if (scene [i] != null)
+                if (scenes [i] != null)
                 {
-                    scene [i].transform.position -= moveSpeed;
+                    scenes [i].transform.position -= moveSpeed;
                 }
             }
         }
