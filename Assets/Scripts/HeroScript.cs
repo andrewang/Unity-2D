@@ -15,7 +15,7 @@ public class HeroScript : MonoBehaviour
 	private bool ended = false;
 	private int score;
 	private float preBlink;
-	
+	private float jumpTimer=0;
 
 	// Use this for initialization
     void Start()
@@ -44,10 +44,15 @@ public class HeroScript : MonoBehaviour
                 CheckMove( "ended");
             }
             
+			jumpTimer = jumpTimer+1;
 			//if(NeuroskyInstance.Blink != preBlink)
 			if(Input.GetKeyDown("space"))
             {
-                CheckJump("began");
+				if (jumpTimer>50)
+				{
+                	CheckJump("began");
+					jumpTimer=0;
+				}
             }
 			preBlink = NeuroskyInstance.Blink;
         
