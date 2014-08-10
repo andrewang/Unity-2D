@@ -113,8 +113,9 @@ public class HeroScript : MonoBehaviour
 		}
 
 		NeuroskyInstance.Disconnect ();
-        bg.GetComponent<AudioSource>().Stop();      
-		Invoke("restart", 2);
+        bg.GetComponent<AudioSource>().Stop();
+		Destroy (gameObject, 0.626f);
+		//Invoke("restart", 2);
     }
 
 	public int Score
@@ -125,9 +126,16 @@ public class HeroScript : MonoBehaviour
 		}
 	}
 
+	void OnDestroy()
+	{
+		// Game Over.
+		// Add the script to the parent because the current game
+		// object is likely going to be destroyed immediately.
+		transform.parent.gameObject.AddComponent<GameOverScript>();
+	}
 
-    void restart()
-    {   
-        Application.LoadLevel(Application.loadedLevel);
-    }	
+//    void restart()
+//    {   
+//        Application.LoadLevel(Application.loadedLevel);
+//    }	
 }
